@@ -1,0 +1,144 @@
+int TILTSWITCH01 = 3; // Tilt Switch Input
+int TILTSWITCH02 = 4; // Tilt Switch Input
+int TILTSWITCH03 = 5; // Tilt Switch Input
+
+//Create variables for storing the status
+int TILTSWITCH01_VALUE = LOW; 
+int TILTSWITCH02_VALUE = LOW; 
+int TILTSWITCH03_VALUE = LOW; 
+
+
+//Create variables for storing the status
+boolean TILTSWITCH01_STATUS_OLD = false; 
+boolean TILTSWITCH02_STATUS_OLD = false; 
+boolean TILTSWITCH03_STATUS_OLD = false; 
+
+
+//Create variables for storing the change of tilt
+boolean TILTSWITCH01_CHANGE = false; 
+boolean TILTSWITCH02_CHANGE = false; 
+boolean TILTSWITCH03_CHANGE = false; 
+
+
+//Create variables for storing the status
+boolean TILTSWITCH01_STATUS_NEW = false; 
+boolean TILTSWITCH02_STATUS_NEW = false; 
+boolean TILTSWITCH03_STATUS_NEW = false; 
+
+
+void setup ()
+
+{
+
+  Serial.begin(9600);
+
+//Initialize teh Tilt switches. Set as Inputs
+  pinMode (TILTSWITCH01, INPUT) ;// define the mercury tilt switch sensor output interface
+  pinMode (TILTSWITCH02, INPUT) ;// define the mercury tilt switch sensor output interface
+  pinMode (TILTSWITCH03, INPUT) ;// define the mercury tilt switch sensor output interface
+
+}
+
+
+//Funciton to check the Tilt switches status
+void checktilt01( )
+
+{
+  TILTSWITCH01_VALUE = digitalRead (TILTSWITCH01) ;// read the switch value
+
+ //Save the new status of tilt value
+  if (TILTSWITCH01_VALUE == HIGH) // Means we've tilted
+    TILTSWITCH01_STATUS_NEW = true;
+  else
+    TILTSWITCH01_STATUS_NEW = false;
+ 
+  //Check if Tilt has changed
+  if (TILTSWITCH01_STATUS_NEW != TILTSWITCH01_STATUS_OLD)
+    TILTSWITCH01_CHANGE = true;
+  else
+    TILTSWITCH01_CHANGE = false;
+
+  //Now store the new Value in the Old
+  TILTSWITCH01_STATUS_OLD = TILTSWITCH01_STATUS_NEW;
+    
+}
+
+
+//Funciton to check the Tilt switches status
+void checktilt02( )
+
+{
+  TILTSWITCH02_VALUE = digitalRead (TILTSWITCH02) ;// read the switch value
+
+ //Save the new status of tilt value
+  if (TILTSWITCH02_VALUE == HIGH) // Means we've tilted
+    TILTSWITCH02_STATUS_NEW = true;
+  else
+    TILTSWITCH02_STATUS_NEW = false;
+ 
+  //Check if Tilt has changed
+  if (TILTSWITCH02_STATUS_NEW != TILTSWITCH02_STATUS_OLD)
+    TILTSWITCH02_CHANGE = true;
+  else
+    TILTSWITCH02_CHANGE = false;
+
+  //Now store the new Value in the Old
+  TILTSWITCH02_STATUS_OLD = TILTSWITCH02_STATUS_NEW;
+    
+}
+
+
+//Funciton to check the Tilt switches status
+void checktilt03( )
+
+{
+  TILTSWITCH03_VALUE = digitalRead (TILTSWITCH03) ;// read the switch value
+
+ //Save the new status of tilt value
+  if (TILTSWITCH03_VALUE == HIGH) // Means we've tilted
+    TILTSWITCH03_STATUS_NEW = true;
+  else
+    TILTSWITCH03_STATUS_NEW = false;
+ 
+  //Check if Tilt has changed
+  if (TILTSWITCH03_STATUS_NEW != TILTSWITCH03_STATUS_OLD)
+    TILTSWITCH03_CHANGE = true;
+  else
+    TILTSWITCH03_CHANGE = false;
+
+  //Now store the new Value in the Old
+  TILTSWITCH03_STATUS_OLD = TILTSWITCH03_STATUS_NEW;
+    
+}
+
+
+
+//Function to Print the results on serial port
+void printResults(){
+
+  Serial.println("Sensor 01" );
+  Serial.println(TILTSWITCH01_CHANGE);
+
+   Serial.println("Sensor 02" );
+  Serial.println(TILTSWITCH02_CHANGE);
+
+  Serial.println("Sensor 03" );
+  Serial.println(TILTSWITCH03_CHANGE);
+
+}
+
+
+//Loop Function
+void loop () {
+
+  //Check status
+  checktilt01();
+  checktilt02();
+  checktilt03();
+
+  //Now Print the results
+  printResults();
+
+  //Sleep 
+  delay(2000);
+}
